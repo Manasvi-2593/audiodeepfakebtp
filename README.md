@@ -19,6 +19,9 @@ $ cd ..
 $ pip install -r requirements.txt
 ```
 
+Our command :
+python main.py --track=custom_dataset --is_eval --eval --model_path=/home/ws2/Downloads/btp/audiodeepfakebtp/MMpaper_model.pth --protocols_path=/home/ws2/Downloads/btp/audiodeepfakebtp/database/ASVspoof_DF_cm_protocols/all_paths.txt --database_path=/home/ws2/Downloads/btp/audiodeepfakebtp/train --eval_output=/home/ws2/Downloads/btp/audiodeepfakebtp/output_scores.txt
+
 
 ## Experiments
 

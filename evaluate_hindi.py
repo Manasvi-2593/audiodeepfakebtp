@@ -31,9 +31,11 @@ def eval_to_score_file(score_file, cm_key_file):
     cm_scores = submission_scores.merge(cm_data, left_on=0, right_on=0, how='inner')
     print(cm_scores.columns)
 
-    spoof_cm = cm_scores[cm_scores['1_y'] == 'spoof']['1_x'].values
+    bona_cm = cm_scores[cm_scores[5] == 'bonafide']['1_x'].values
+    spoof_cm = cm_scores[cm_scores[5] == 'spoof']['1_x'].values
+    eer_cm = em.compute_eer(bona_cm, spoof_cm)[0]
 
-    eer_cm = em.compute_eer(np.array([0]), spoof_cm)[0]  # Only spoof scores provided
+    # eer_cm = em.compute_eer(np.array([0]), spoof_cm)[0]  # Only spoof scores provided
 
     out_data = f"eer: {100 * eer_cm:.2f}\n"
     print(out_data)

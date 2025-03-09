@@ -150,7 +150,8 @@ class Hindi_Dataset(Dataset):
 
     def __getitem__(self, index):
         utt_id = self.list_IDs[index]
-        X, fs = librosa.load(os.path.join(self.base_dir, utt_id), sr=16000)
+        utt_id = utt_id.replace('\\', '/')
+        X, fs = librosa.load(os.path.normpath(os.path.join(self.base_dir, utt_id)), sr=16000)
         X_pad = pad(X, self.cut)
         x_inp = Tensor(X_pad)
         return x_inp, utt_id

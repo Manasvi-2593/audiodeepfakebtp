@@ -257,7 +257,7 @@ if __name__ == '__main__':
         produce_evaluation_file(eval_set, model, device, args.eval_output)
         sys.exit(0)
     if args.track == 'In-the-Wild':
-        file_eval = genSpoof_list( dir_meta =  "D:\Desktop\SSL_Anti-spoofing\SLSforASVspoof-2021-DF\database\ASVspoof_DF_cm_protocols\in_the_wild.eval.txt",is_train=False,is_eval=True)
+        file_eval = genSpoof_list( dir_meta =  r"D:\Desktop\SSL_Anti-spoofing\SLSforASVspoof-2021-DF\database\ASVspoof_DF_cm_protocols\in_the_wild.eval.txt",is_train=False,is_eval=True)
         print('no. of eval trials',len(file_eval))
         eval_set=Dataset_in_the_wild_eval(list_IDs = file_eval,base_dir = os.path.join(args.database_path))
         produce_evaluation_file(eval_set, model, device, args.eval_output)

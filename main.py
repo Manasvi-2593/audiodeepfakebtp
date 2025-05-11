@@ -14,6 +14,16 @@ from core_scripts.startup_config import set_random_seed
 from tqdm import tqdm
 from torchvision import transforms
 
+# def custom_collate_fn(batch):
+#     """
+#     Custom collate function to handle padding or other custom batch logic.
+#     """
+#     batch_x, batch_y = zip(*batch)
+#     # Stack the features and labels together
+#     batch_x = torch.stack(batch_x, dim=0)
+#     batch_y = torch.tensor(batch_y, dtype=torch.int64)
+#     return batch_x, batch_y
+    
 def evaluate_accuracy(dev_loader, model, device):
     val_loss = 0.0
     num_correct = 0.0
@@ -249,10 +259,10 @@ if __name__ == '__main__':
     if args.track =="custom_dataset":
         #do file eval
         file_eval=genSpoof_list(dir_meta=args.protocols_path, is_train=False, is_eval=True)
-        #print number of eval files 
-        print('no. of eval trials',len(file_eval))
         #call function for evaluation
         eval_set=Hindi_Dataset(list_IDs=file_eval, base_dir=os.path.join(args.database_path))
+        #print number of eval files 
+        print('no. of eval trials',len(eval_set))
         #product eval file
         produce_evaluation_file(eval_set, model, device, args.eval_output)
         sys.exit(0)

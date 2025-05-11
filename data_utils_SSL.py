@@ -122,20 +122,33 @@ class Dataset_in_the_wild_eval(Dataset):
 
 class Hindi_Dataset(Dataset):
     def __init__(self, list_IDs, base_dir):
-        self.list_IDs = list_IDs
         self.base_dir = base_dir
-        self.cut = 30033
+        self.cut = 64600
+        self.list_IDs = []
+
+        for utt_id in list_IDs:
+            utt_path = os.path.join(base_dir, utt_id.replace('\\', '/'))
+            utt_path = os.path.normpath(utt_path)
+            try:
+                X, _ = librosa.load(utt_path, sr=None)
+                if len(X) >= 100:
+                    self.list_IDs.append(utt_id.replace('\\', '/'))
+            except Exception as e:
+                print(f"Skipping {utt_id}: {e}")
 
     def __len__(self):
         return len(self.list_IDs)
 
     def __getitem__(self, index):
         utt_id = self.list_IDs[index].replace('\\', '/')
-        X, fs = librosa.load(os.path.normpath(os.path.join(self.base_dir, utt_id)), sr=16000)
+        X, fs = librosa.load(os.path.normpath(os.path.join(self.base_dir, utt_id)), sr=None)
+        if len(X) < 100:
+            return None
+        X = librosa.resample(X, orig_sr=fs, target_sr=16000)
         X_pad = pad(X, self.cut)
         x_inp = Tensor(X_pad)
         return x_inp, utt_id
-
+      
 
 def process_Rawboost_feature(feature, sr, args, algo):
     if algo == 1:
